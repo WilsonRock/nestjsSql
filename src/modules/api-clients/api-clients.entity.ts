@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Commerces } from '../commerces/commerces.entity';
 
 @Entity()
@@ -12,7 +12,8 @@ export class ApiClients {
   @Column()
   api_token: string;
 
-  @OneToMany(type => Commerces, commerce => commerce.id)
+  @ManyToOne(() => Commerces, commerce => commerce.id, {cascade: true})
+  @JoinColumn({name: 'commerce_id'})
   commerce: Commerces[];
 
   @Column()

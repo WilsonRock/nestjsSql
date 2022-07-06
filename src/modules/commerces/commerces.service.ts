@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Commerces } from './commerces.entity';
-import { CommercesRepository } from './commerces.repository';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommercesService {
 
   constructor(
-    @InjectRepository(CommercesRepository, 'bet_provider')
-    private commercesRepository: CommercesRepository
+    @InjectRepository(Commerces, 'bet_provider')
+    private commercesRepository: Repository<Commerces>
   ) {}
 
   async createCommerce(commerce: Commerces): Promise<Commerces> {
@@ -18,8 +18,7 @@ export class CommercesService {
   }
 
   async getCommerces(): Promise<Commerces[]> {
-    let commerces = await this.commercesRepository.find();
-    return commerces;
+    return await this.commercesRepository.find();
   }
 
   async getCommerceById(id: number): Promise<Commerces> {
@@ -31,7 +30,8 @@ export class CommercesService {
   }
 
   async updateCommerce(commerce: Commerces, id: number): Promise<Commerces> {
-    let commerceFound = await this.commercesRepository.findOne({where: {id: id}});
+    const commerceFound = await this.commercesRepository.findOne({where: {id: id}});
+    
     if (!commerceFound) {
       throw new NotFoundException("Comercio no encontrado")
     }

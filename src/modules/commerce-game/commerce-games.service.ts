@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CommerceGamesRepository } from './commerce-games.repository';
 import { CommerceGames } from './commerce-games.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommerceGamesService {
 
   constructor(
-    @InjectRepository(CommerceGamesRepository, 'bet_provider')
-    private commerceGamesRepository: CommerceGamesRepository
+    @InjectRepository(CommerceGames, 'bet_provider')
+    private commerceGamesRepository: Repository<CommerceGames>
   ) {}
 
   async createCommerceGame(commerceGame: CommerceGames): Promise<CommerceGames> {
@@ -17,9 +17,8 @@ export class CommerceGamesService {
     return this.commerceGamesRepository.save(commerceGame);
   }
 
-  async getCommerceGame(): Promise<CommerceGames[]> {
-    let commerceGames = await this.commerceGamesRepository.find();
-    return commerceGames;
+  async getCommerceGames(): Promise<CommerceGames[]> {
+    return await this.commerceGamesRepository.find();
   }
 
   async getCommerceGameById(id: number): Promise<CommerceGames> {
@@ -31,9 +30,9 @@ export class CommerceGamesService {
   }
 
   async updateCommerceGames(commerceGame: CommerceGames, id: number): Promise<CommerceGames> {
-    let commerceGameFound = await this.commerceGamesRepository.findOne({where: {id: id}});
+    const commerceGameFound = await this.commerceGamesRepository.findOne({where: {id: id}});
     if (!commerceGameFound) {
-      throw new NotFoundException("Comercio no encontrado")
+      throw new NotFoundException("Relación comercio juego no encontrada")
     }
 
     commerceGame.id = commerceGameFound.id;

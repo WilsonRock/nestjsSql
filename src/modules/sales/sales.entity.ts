@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Raffles } from '../raffles/raffles.entity';
 import { Commerces } from '../commerces/commerces.entity';
 import { StateSales } from '../state-sales/state-sales.entity';
@@ -14,14 +14,17 @@ export class Sales {
   @Column()
   amount: number;
 
-  @OneToMany(() => Commerces, commerce => commerce.id)
-  commerce_id: Commerces[];
+  @ManyToOne(() => Commerces, commerce => commerce.id, {cascade: true})
+  @JoinColumn({name: 'commerce_id'})
+  commerce: Commerces[];
 
-  @OneToMany(() => Raffles, raffle => raffle.id)
-  raffle_id: Raffles[];
+  @ManyToOne(() => Raffles, raffle => raffle.id, {cascade: true})
+  @JoinColumn({name: 'raffle_id'})
+  raffle: Raffles[];
 
-  @OneToMany(() => StateSales, stateSale => stateSale.id)
-  stateSale_id: StateSales[];
+  @ManyToOne(() => StateSales, stateSale => stateSale.id, {cascade: true})
+  @JoinColumn({name: 'state_sale_id'})
+  stateSale: StateSales[];
 
   @Column()
   created_at: Date;

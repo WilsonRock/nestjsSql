@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Commerces } from '../commerces/commerces.entity';
 import { Games } from '../games/games.entity';
 
@@ -7,11 +7,13 @@ export class CommerceGames {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => Commerces, commerce => commerce.id)
-  commerce_id: Commerces[];
+  @ManyToOne(() => Commerces, commerce => commerce.id, { cascade: true })
+  @JoinColumn({name: 'commerce_id'})
+  commerce: Commerces[];
 
-  @OneToMany(() => Games, game => game.id)
-  game_id: Games[];
+  @ManyToOne(() => Games, game => game.id, { cascade: true })
+  @JoinColumn({name: 'game_id'})
+  game: Games[];
 
   @Column()
   created_at: Date;

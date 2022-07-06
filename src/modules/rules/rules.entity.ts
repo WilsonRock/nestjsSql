@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Games } from '../games/games.entity';
 
 @Entity()
@@ -9,8 +9,9 @@ export class Rules {
   @Column()
   description: string;
 
-  @OneToMany(() => Games, game => game.id)
-  game_id: Games[];
+  @ManyToOne(() => Games, game => game.id, {cascade: true})
+  @JoinColumn({name: 'game_id'})
+  game: Games[];
 
   @Column()
   created_at: Date;

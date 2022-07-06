@@ -1,25 +1,29 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { Raffles } from './raffles.entity';
+import { RafflesService } from './raffles.service';
 
 @Controller('raffles')
 export class RafflesController {
+
+  constructor(private readonly rafflesService: RafflesService) {}
+
   @Get()
-  getRaffles(): Raffles[] {
-    return;
+  getRaffles(): Promise<Raffles[]> {
+    return this.rafflesService.getRaffles();
   }
 
   @Get(':id')
-  getRaffle(@Param('id') id: string): Raffles {
-    return;
+  getRaffle(@Param('id') id: number): Promise<Raffles> {
+    return this.rafflesService.getRaffleById(id);
   }
 
   @Post()
-  createRaffle(@Body() message: string): void {
-    return;
+  createRaffle(@Body() raffle: Raffles): Promise<Raffles> {
+    return this.rafflesService.createRaffles(raffle);
   }
 
   @Patch(':id')
-  updateTuit(@Param('id') id: string, @Body() message: string): Raffles {
-    return;
+  updateTuit(@Param('id') id: number, @Body() raffle: Raffles): Promise<Raffles> {
+    return this.rafflesService.updateRaffle(raffle, id);
   }
 }
