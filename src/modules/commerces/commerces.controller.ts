@@ -1,15 +1,22 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Res, HttpStatus, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { Commerces } from './commerces.entity';
 import { CommercesService } from './commerces.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('commerces')
+@UseGuards(AuthGuard)
 export class CommercesController {
 
   constructor(private readonly commercesService: CommercesService) {}
 
   @Get()
-  getCommerces(): Promise<Commerces[]> {
-    return this.commercesService.getCommerces();
+  async getCommerces(@Res() res: Response) {
+    const commerce = await this.commercesService.getCommerces();
+    return res.status(HttpStatus.OK).json({
+      message: 'OK',
+      commerce
+    })
   }
 
   @Get(':id')

@@ -6,6 +6,7 @@ import { ApiClients } from './api-clients.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ApiClients], 'bet_provider')],
+  exports: [ApiClientsService],
   controllers: [ApiClientsController],
   providers: [ApiClientsService]
 })

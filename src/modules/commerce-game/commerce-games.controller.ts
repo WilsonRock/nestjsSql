@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 import { CommerceGames } from './commerce-games.entity';
 import { CommerceGamesService } from './commerce-games.service';
 
 @Controller('commerce-games')
+@UseGuards(AuthGuard)
 export class CommerceGamesController {
 
   constructor(private readonly commerceGamesService: CommerceGamesService) {}
