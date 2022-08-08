@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiClients } from './api-clients.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,11 @@ export class ApiClientsService {
   ) {}
 
   async validate(appKey: string, appToken: string) {
+
+    if(!appToken) {
+      return false;
+    }
+
     const apiClient = await this.apiClientsRepository.findOne({ where: { api_key: appKey }});
 
     if(apiClient && await bcrypt.compare(appToken, apiClient.api_token)) {
@@ -41,4 +46,17 @@ export class ApiClientsService {
     }
     return result;
   }
+
+  async deleteApiClient(id: number): Promise<ApiClients> {
+    const apiClient = await this.apiClientsRepository.findOne({ where: { id: id }});
+
+    if(!apiClient) {
+      throw new NotFoundException("Api Key no encontrado")
+    }
+
+    this.apiClientsRepository.delete(apiClient)
+    return apiClient
+
+  }
+
 }

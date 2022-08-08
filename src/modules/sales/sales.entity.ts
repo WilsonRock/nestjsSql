@@ -9,7 +9,7 @@ export class Sales {
   id: number;
 
   @Column()
-  date: Date;
+  bet_number: string
 
   @Column()
   amount: number;

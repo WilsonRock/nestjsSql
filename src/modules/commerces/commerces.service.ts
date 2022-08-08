@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Commerces } from './commerces.entity';
 import { Repository } from 'typeorm';
@@ -12,6 +12,12 @@ export class CommercesService {
   ) {}
 
   async createCommerce(commerce: Commerces): Promise<Commerces> {
+    const commerceExist = await this.commercesRepository.findOne({where: {name: commerce.name}});
+
+    if (commerceExist) {
+      throw new ConflictException('Ya existe un comercio con ese nombre')
+    }
+
     commerce.created_at = new Date();
     commerce.updated_at = new Date();
     return this.commercesRepository.save(commerce);

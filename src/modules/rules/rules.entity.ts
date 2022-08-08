@@ -9,6 +9,9 @@ export class Rules {
   @Column()
   description: string;
 
+  @Column()
+  gain: number;
+
   @ManyToOne(() => Games, game => game.id, {cascade: true})
   @JoinColumn({name: 'game_id'})
   game: Games[];

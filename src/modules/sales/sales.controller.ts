@@ -23,4 +23,9 @@ export class SalesController {
   createSale(@Body() sale: Sales): Promise<Sales> {
     return this.salesService.createSale(sale);
   }
+
+  @Post('generate/winners')
+  generateWinners(@Body() winners: string) {
+    return this.salesService.getWinners(winners);
+  }
 }
