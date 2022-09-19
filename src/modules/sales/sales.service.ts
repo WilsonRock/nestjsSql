@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Sales } from './sales.entity';
 import { Repository } from 'typeorm';
-
+//import { Logger } from '@nestjs/common';
 @Injectable()
 export class SalesService {
 
@@ -14,6 +14,7 @@ export class SalesService {
   async createSale(sale: Sales): Promise<Sales> {
     sale.created_at = new Date();
     sale.updated_at = new Date();
+   //Logger.log('info')
     return this.salesRepository.save(sale);
   }
 

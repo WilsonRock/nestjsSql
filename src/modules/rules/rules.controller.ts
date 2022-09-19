@@ -4,7 +4,7 @@ import { Rules } from './rules.entity';
 import { RulesService } from './rules.service';
 
 @Controller('rules')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class RulesController {
 
   constructor(private readonly rulesService: RulesService) {}

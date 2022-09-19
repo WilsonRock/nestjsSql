@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/co
 import { AuthGuard } from '../auth/auth.guard';
 import { Sales } from './sales.entity';
 import { SalesService } from './sales.service';
-
+import { Logger } from '@nestjs/common';
 @Controller('sales')
 @UseGuards(AuthGuard)
 export class SalesController {
@@ -21,6 +21,9 @@ export class SalesController {
 
   @Post()
   createSale(@Body() sale: Sales): Promise<Sales> {
+
+
+   Logger.log('info',Sales)
     return this.salesService.createSale(sale);
   }
 

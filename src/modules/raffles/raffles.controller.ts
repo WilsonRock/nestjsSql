@@ -4,7 +4,7 @@ import { Raffles } from './raffles.entity';
 import { RafflesService } from './raffles.service';
 
 @Controller('raffles')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class RafflesController {
 
   constructor(private readonly rafflesService: RafflesService) {}

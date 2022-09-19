@@ -4,7 +4,7 @@ import { StateSales } from './state-sales.entity';
 import { StateSalesService } from './state-sales.service';
 
 @Controller('state-sales')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class StateSalesController {
 
   constructor(private readonly stateSalesService: StateSalesService) {}

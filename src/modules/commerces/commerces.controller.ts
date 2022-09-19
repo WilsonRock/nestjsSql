@@ -5,7 +5,7 @@ import { CommercesService } from './commerces.service';
 import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('commerces')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class CommercesController {
 
   constructor(private readonly commercesService: CommercesService) {}
